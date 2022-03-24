@@ -1,7 +1,13 @@
 ### APT
-* `$ xinit i3 i3blocks rofi alacritty autokey-gtk xbindkeys`
+* `$ xinit i3 i3blocks rofi autokey-gtk xbindkeys`
 * `$ lxappearance nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
 * `$ sudo apt remove gdm3`
+
+### PPA
+* alacritty
+  * `$ sudo add-apt-repository ppa:aslatter/ppa`
+* git
+  * `$ sudo add-apt-repository ppa:git-core/ppa`
 
 ### WGET
 * google-chrome
@@ -13,12 +19,6 @@
   * `$ sudo apt-get install apt-transport-https`
   * `$ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list`
 * [plexmediaserver](https://medium.com/@TechHutTV/turning-an-old-pc-laptop-into-a-media-server-84619f647a12)
-
-### PPA
-* alacritty
-  * `$ sudo add-apt-repository ppa:aslatter/ppa`
-* git
-  * `$ sudo add-apt-repository ppa:git-core/ppa`
 
 ### [dot-server](https://github.com/audio333/dot-server)
 ### [dot-xui](https://github.com/audio333/dot-xui)
