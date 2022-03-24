@@ -1,6 +1,7 @@
 ### APT
-* `$ xinit i3 i3blocks rofi autokey-gtk xbindkeys`
-* `$ lxappearance nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
+* `$ sudo apt install xinit i3 i3blocks rofi autokey-gtk xbindkeys`
+* `$ sudo apt install nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
+* `$ sudo apt install lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
 ### PPA
