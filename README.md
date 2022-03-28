@@ -1,24 +1,31 @@
+### Suckless
+* [dwm](https://dwm.suckless.org/)
+    * `$ sudo apt install suckless-tools build-essential libx11-dev libxinerama-dev libxft-dev libwebkit2gtk-4.0-dev`
+    * `$ git clone https://git.suckless.org/dwm`
+    * `$ cd dwm`
+    * `$ sudo make clean install`
+
 ### APT
-* `$ sudo apt install xinit i3 i3blocks rofi autokey-gtk xbindkeys`
-* `$ sudo apt install nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
+* `$ sudo apt install xorg i3 i3blocks sxhkd autokey-gtk`
+* `$ sudo apt install firefox qutebrowser zathura nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
 * `$ sudo apt install lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
 ### PPA
-* alacritty
-  * `$ sudo add-apt-repository ppa:aslatter/ppa`
 * git
   * `$ sudo add-apt-repository ppa:git-core/ppa`
+
+### Github
+* [pywal](https://github.com/dylanaraps/pywal/wiki/Installation#manualgit-install)
+    * `$ git clone https://github.com/dylanaraps/pywal`
+    * `$ cd pywal`
+    * `$ pip3 install --user .`
+    * `$ wal -i ~/Pictures/Wallpapers/wall.jpg`
 
 ### WGET
 * google-chrome
   * `$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
   * `$ sudo dpkg -i google-chrome-stable_current_amd64.deb`
-* [sublime-text](https://www.sublimetext.com/docs/linux_repositories.html#apt)  
-* [sublime-merge](https://www.sublimemerge.com/docs/linux_repositories#apt)
-  * `$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -`
-  * `$ sudo apt-get install apt-transport-https`
-  * `$ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list`
 * [plexmediaserver](https://medium.com/@TechHutTV/turning-an-old-pc-laptop-into-a-media-server-84619f647a12)
 
 ### [dot-server](https://github.com/audio333/dot-server)
