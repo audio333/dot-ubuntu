@@ -6,7 +6,7 @@
     * `$ sudo make clean install`
 
 ### APT
-* `$ sudo apt install xorg i3 i3blocks sxhkd autokey-gtk`
+* `$ sudo apt install xorg i3 i3blocks sxhkd autokey-gtk xcape`
 * `$ sudo apt install firefox qutebrowser zathura nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
 * `$ sudo apt install lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`

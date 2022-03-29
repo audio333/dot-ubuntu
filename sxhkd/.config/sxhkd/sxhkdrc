@@ -1,2 +1,11 @@
-super + shift + f
-    firefox
+super + Return
+    alacritty
+
+#super + d
+#    dmenu_run
+
+super + shift + x
+    i3lock
+
+#super + shift + f
+#    firefox
