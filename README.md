@@ -1,14 +1,14 @@
 ### Suckless
 * [dwm](https://dwm.suckless.org/)
-    * `$ sudo apt install suckless-tools build-essential libx11-dev libxinerama-dev libxft-dev libwebkit2gtk-4.0-dev`
-    * `$ git clone https://git.suckless.org/dwm`
-    * `$ cd dwm`
-    * `$ sudo make clean install`
+  * `$ sudo apt install suckless-tools build-essential libx11-dev libxinerama-dev libxft-dev libwebkit2gtk-4.0-dev`
+  * `$ git clone https://git.suckless.org/dwm`
+  * `$ cd dwm`
+  * `$ sudo make clean install`
 
 ### APT
-* `$ sudo apt install xorg i3 i3blocks sxhkd autokey-gtk xcape`
-* `$ sudo apt install firefox qutebrowser zathura nautilus gedit mpv mplayer cmus pavucontrol feh sxiv lm-sensors ppa-purge`
-* `$ sudo apt install lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
+* `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
+* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol feh sxiv lm-sensors ppa-purge`
+* `$ sudo apt install compton lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
 ### PPA
@@ -27,6 +27,13 @@
   * `$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
   * `$ sudo dpkg -i google-chrome-stable_current_amd64.deb`
 * [plexmediaserver](https://medium.com/@TechHutTV/turning-an-old-pc-laptop-into-a-media-server-84619f647a12)
+
+### Tweaks
+* [fix a startjob is running for wait for network to be configured](https://www.youtube.com/watch?v=7gdSZKCHL5g)
+  * `$ sudo vim /etc/netplan/00-installer-config.yaml`
+    > optional: true
+  * `$ sudo netplan apply`
+  * `$ sudo reboot`
 
 ### [dot-server](https://github.com/audio333/dot-server)
 ### [dot-xui](https://github.com/audio333/dot-xui)

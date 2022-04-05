@@ -11,8 +11,11 @@ sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 feh --bg-fill --randomize ~/.config/wallpapers/ &
 # xwallpaper --zoom ~/.config/wallpapers/wall.jpg &
 
+# Set Opacity
+compton &
+
 # Start Alacritty
 /usr/bin/alacritty &
 
 # Start Window Manager
-exec dwm
+exec awesome
