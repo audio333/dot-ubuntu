@@ -7,7 +7,7 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
-* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol feh sxiv lm-sensors ppa-purge`
+* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol feh sxiv lm-sensors ppa-purge copyq`
 * `$ sudo apt install compton lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
@@ -29,6 +29,10 @@
 * [plexmediaserver](https://medium.com/@TechHutTV/turning-an-old-pc-laptop-into-a-media-server-84619f647a12)
 
 ### Tweaks
+* [set timezone](https://www.youtube.com/watch?v=i_m90hbvwwM)
+  * `$ timedatectl set-timezone Asia/Manila`
+  * `$ timedatectl`
+  * `$ sudo dpkg-reconfigure tzdata`
 * [fix a startjob is running for wait for network to be configured](https://www.youtube.com/watch?v=7gdSZKCHL5g)
   * `$ sudo vim /etc/netplan/00-installer-config.yaml`
     > optional: true

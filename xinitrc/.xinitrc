@@ -11,6 +11,9 @@ sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 feh --bg-fill --randomize ~/.config/wallpapers/ &
 # xwallpaper --zoom ~/.config/wallpapers/wall.jpg &
 
+# Clipboard
+exec copyq &
+
 # Set Opacity
 compton &
 

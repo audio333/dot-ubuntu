@@ -9,3 +9,6 @@ super + shift + x
 
 #super + shift + f
 #    firefox
+
+control + alt + v
+    copyq menu
