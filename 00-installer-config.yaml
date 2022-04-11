@@ -1,0 +1,22 @@
+# ls /sys/class/net
+# sudo vim /etc/netplan/00-installer-config.yaml
+# sudo netplan try / apply
+# ip a
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      optional: true
+  version: 2
+  wifis:
+    wlp2s0: 
+      dhcp4: false # static ip
+      addresses: [192.168.0.111/24]
+      gateway4: 192.168.0.1
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]
+      optional: true
+      #access-points:
+      #  "SSID-NAME-HERE":
+      #    password: "PASSWORD-HERE"

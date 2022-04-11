@@ -18,7 +18,7 @@ exec copyq &
 compton &
 
 # Start Alacritty
-/usr/bin/alacritty &
+/usr/bin/alacritty -e tmux &
 
 # Start Window Manager
 exec awesome
