@@ -7,7 +7,7 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
-* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol feh sxiv lm-sensors ppa-purge copyq`
+* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth feh sxiv lm-sensors ppa-purge copyq`
 * `$ sudo apt install compton lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
