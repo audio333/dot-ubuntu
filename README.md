@@ -1,4 +1,4 @@
-### Suckless
+### Official Site
 * [dwm](https://dwm.suckless.org/)
   * `$ sudo apt install suckless-tools build-essential libx11-dev libxinerama-dev libxft-dev libwebkit2gtk-4.0-dev`
   * `$ git clone https://git.suckless.org/dwm`
@@ -7,13 +7,35 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
-* `$ sudo apt install firefox qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth feh sxiv lm-sensors ppa-purge copyq`
+* `$ sudo apt install qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth feh sxiv lm-sensors ppa-purge copyq`
 * `$ sudo apt install compton lxappearance gnome-themes-extra mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
 ### PPA
 * git
   * `$ sudo add-apt-repository ppa:git-core/ppa`
+
+### [Flatpak](https://www.flatpak.org/setup/Ubuntu)
+* com.google.Chrome
+* org.mozilla.firefox
+* com.brave.Browser
+* com.usebottles.bottles
+* io.github.Figma_Linux.figma_linux
+* com.github.alecaddd.sequeler
+* rest.insomnia.Insomnia
+* com.spotify.Client
+* com.valvesoftware.Steam
+* org.gimp.Gimp
+* com.visualstudio.code
+
+### AppImage
+* kdenlive
+* LibreOffice
+* MuseScore
+* Neovim
+
+### Bottles
+* Photoshop CC 2015
 
 ### Github
 * [pywal](https://github.com/dylanaraps/pywal/wiki/Installation#manualgit-install)
