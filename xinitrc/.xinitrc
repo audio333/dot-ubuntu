@@ -21,4 +21,6 @@ compton &
 /usr/bin/alacritty -e tmux &
 
 # Start Window Manager
-exec awesome
+dwmblocks &
+exec dwm
+#exec awesome
