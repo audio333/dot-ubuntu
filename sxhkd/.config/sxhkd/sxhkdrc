@@ -7,8 +7,18 @@
 super + shift + x
     slock
 
-#super + shift + f
-#    firefox
-
 control + alt + v
     copyq menu
+
+# Media player controls
+XF86AudioPlay 
+    playerctl play
+
+XF86AudioPause 
+    playerctl pause
+
+XF86AudioNext 
+    playerctl next
+
+XF86AudioPrev 
+    playerctl previous
