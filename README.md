@@ -8,7 +8,8 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
-* `$ sudo apt install qutebrowser zathura pcmanfm mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth feh sxiv lm-sensors ppa-purge copyq`
+* `$ sudo apt install qutebrowser zathura pcmanfm feh sxiv mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth`
+* `$ sudo apt install unzip copyq lm-sensors ppa-purge dbus-x11 network-manager`
 * `$ sudo apt install compton lxappearance mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
@@ -39,11 +40,19 @@
 * Photoshop CC 2015
 
 ### Github
+* [yt-dlp](https://github.com/yt-dlp/yt-dlp#installation)
+  * `$ sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp`
+  * `$ sudo chmod a+rx /usr/local/bin/yt-dlp`
+* [ytfzf](https://github.com/pystardust/ytfzf#install)
+  * `$ sudo apt install jq`
+  * `$ git clone https://github.com/pystardust/ytfzf`
+  * `$ cd ytfzf`
+  * `$ sudo make install doc`
 * [pywal](https://github.com/dylanaraps/pywal/wiki/Installation#manualgit-install)
-    * `$ git clone https://github.com/dylanaraps/pywal`
-    * `$ cd pywal`
-    * `$ pip3 install --user .`
-    * `$ wal -i ~/Pictures/Wallpapers/wall.jpg`
+  * `$ git clone https://github.com/dylanaraps/pywal`
+  * `$ cd pywal`
+  * `$ pip3 install --user .`
+  * `$ wal -i ~/Pictures/Wallpapers/wall.jpg`
 
 ### WGET
 * google-chrome
