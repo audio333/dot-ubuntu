@@ -48,6 +48,11 @@
   * `$ git clone https://github.com/pystardust/ytfzf`
   * `$ cd ytfzf`
   * `$ sudo make install doc`
+* [torrentflix](https://github.com/ItzBlitz98/torrentflix#install-manual)
+  * `$ npm install -g peerflix`
+  * `$ git clone https://github.com/ItzBlitz98/torrentflix`
+  * `$ cd torrentflix`
+  * `$ npm install`
 * [pywal](https://github.com/dylanaraps/pywal/wiki/Installation#manualgit-install)
   * `$ git clone https://github.com/dylanaraps/pywal`
   * `$ cd pywal`
