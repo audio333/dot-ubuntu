@@ -84,7 +84,7 @@
 
     # clone dotfiles
     cd ~
-    git clone https://github.com/audio333/dot-server.git
+    git clone https://github.com/audio333/dot-ubuntu.git
 
     #backup current dotfiles
     mkdir -p ~/Downloads/stowbackup
