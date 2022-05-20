@@ -87,6 +87,11 @@ config.set('content.javascript.enabled', True, 'chrome://*/*')
 config.set('content.javascript.enabled', True, 'qute://*/*')
 
 #------------------------------
+# Dark mode setting
+#------------------------------
+config.set('colors.webpage.darkmode.enabled', True)
+
+#------------------------------
 # Bindings for normal mode
 #------------------------------
 config.bind('M', 'hint links spawn mpv {hint-url}')
