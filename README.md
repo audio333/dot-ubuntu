@@ -40,19 +40,6 @@
 * Photoshop CC 2015
 
 ### Github
-* [yt-dlp](https://github.com/yt-dlp/yt-dlp#installation)
-  * `$ sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp`
-  * `$ sudo chmod a+rx /usr/local/bin/yt-dlp`
-* [ytfzf](https://github.com/pystardust/ytfzf#install)
-  * `$ sudo apt install jq`
-  * `$ git clone https://github.com/pystardust/ytfzf`
-  * `$ cd ytfzf`
-  * `$ sudo make install doc`
-* [torrentflix](https://github.com/ItzBlitz98/torrentflix#install-manual)
-  * `$ npm install -g peerflix`
-  * `$ git clone https://github.com/ItzBlitz98/torrentflix`
-  * `$ cd torrentflix`
-  * `$ npm install`
 * [pywal](https://github.com/dylanaraps/pywal/wiki/Installation#manualgit-install)
   * `$ git clone https://github.com/dylanaraps/pywal`
   * `$ cd pywal`
