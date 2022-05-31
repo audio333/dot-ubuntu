@@ -8,14 +8,17 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape awesome i3 i3blocks`
-* `$ sudo apt install qutebrowser zathura pcmanfm feh sxiv mousepad mpv cmus pavucontrol pulseaudio-module-bluetooth`
-* `$ sudo apt install unzip copyq lm-sensors ppa-purge dbus-x11 network-manager`
+* `$ sudo apt install qutebrowser zathura pcmanfm feh sxiv mousepad cmus pavucontrol pulseaudio-module-bluetooth`
+* `$ sudo apt install zip unzip copyq task-spooler scrot ncdu lm-sensors ppa-purge dbus-x11 network-manager`
 * `$ sudo apt install compton lxappearance mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
 
 ### PPA
 * git
   * `$ sudo add-apt-repository ppa:git-core/ppa`
+
+### PIP
+* `$ pip3 install ueberzug`
 
 ### [Flatpak](https://www.flatpak.org/setup/Ubuntu)
 * com.google.Chrome
