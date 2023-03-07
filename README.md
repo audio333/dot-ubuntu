@@ -28,9 +28,8 @@
 * io.github.Figma_Linux.figma_linux
 * com.github.alecaddd.sequeler
 * rest.insomnia.Insomnia
-* com.spotify.Client
-* com.valvesoftware.Steam
 * org.gimp.Gimp
+* com.spotify.Client
 * com.visualstudio.code
 
 ### AppImage
