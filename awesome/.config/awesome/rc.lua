@@ -249,9 +249,9 @@ end)
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
+    awful.key({ modkey,           }, "u",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
+    awful.key({ modkey,           }, "i",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
@@ -280,7 +280,7 @@ globalkeys = gears.table.join(
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "screen"}),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
+    awful.key({ modkey,           }, "z", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -583,10 +583,15 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Gaps
-beautiful.useless_gap = 8
+beautiful.useless_gap = 5
 
 -- Autostart
 -- awful.spawn.with_shell("wal -q -i ~/.config/wallpapers")
+awful.spawn.with_shell("autokey")
+awful.spawn.with_shell("xcape -e 'Super_L=Escape'")
 awful.spawn.with_shell("feh --bg-fill --randomize ~/.config/wallpapers")
+awful.spawn.with_shell("copyq")
+awful.spawn.with_shell("compton")
+awful.spawn.with_shell("/usr/bin/alacritty -e tmux")
 
 
