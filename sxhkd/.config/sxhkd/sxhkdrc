@@ -1,11 +1,14 @@
 #super + Return
-#    alacritty
+#    alacritty 
 
-#super + d
-#    dmenu_run
+super + p
+    rofi -show drun
 
-super + shift + x
-    slock
+super + y
+    ytfzf -D
+
+#super + shift + x
+#    slock
 
 control + alt + v
     copyq menu

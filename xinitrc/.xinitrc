@@ -12,15 +12,17 @@ feh --bg-fill --randomize ~/.config/wallpapers/ &
 # xwallpaper --zoom ~/.config/wallpapers/wall.jpg &
 
 # Clipboard
-exec copyq &
-
-# Set Opacity
-compton &
+#exec copyq &
 
 # Start Alacritty
-/usr/bin/alacritty -e tmux &
+/usr/bin/alacritty -e tmux & 
+
+# Set Opacity
+#compton &
+#picom &
 
 # Start Window Manager
 dwmblocks &
 exec dwm
 #exec awesome
+

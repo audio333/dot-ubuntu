@@ -1,0 +1,86 @@
+* {
+    fg: #eee;
+    bg: #222;
+
+    fg-alt: #bbb;
+    bg-alt: #222;
+
+    bg-selected: #979797;
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+
+    height:                     20px;
+    font:                       "JetBrainMono Nerd Font Medium 9";
+    prompt-font:                "JetBrainMono Nerd Font Bold 9";
+    prompt-background:          #51afef;
+    prompt-foreground:          #282c34;
+    prompt-padding:             2px;
+}
+
+window {
+    background-color: @bg;
+    anchor: north;
+    location: north;
+    width: 100%;
+    padding: 0px;
+    children: [ horibox ];
+}
+
+horibox {
+    orientation: horizontal;
+    children: [ prompt, entry, listview ];
+}
+
+element {
+    padding: 2px 8px;
+    background-color: transparent;
+    text-color: @fg-alt;
+}
+
+element selected {
+    background-color: @bg-selected;
+    text-color:       @fg;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+}
+
+element-icon {
+    background-color: transparent;
+}
+
+entry {
+    background-color: @bg-alt;
+    text-color: @fg;
+    padding: 2px;
+    expand: false;
+    width: 10em;
+}
+
+inputbar {
+  children: [prompt, entry];
+  background-color: @bg;
+}
+
+listview {
+    background-color: @bg;
+    layout: horizontal;
+    lines: 100;
+}
+
+mainbox {
+  children: [inputbar, listview];
+  background-color: @bg;
+}
+
+prompt {
+    padding:          @prompt-padding;
+    background-color: @bg-alt;
+    text-color:       @fg;
+    font:             @prompt-font;
+}
