@@ -8,4 +8,5 @@ remove mod4 = Hyper_L
 ! Set mod3 to capslock
 add mod3 = Hyper_L
 
-
+! Set context menu to super key
+keycode 135 = Super_R
