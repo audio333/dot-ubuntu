@@ -1,3 +1,5 @@
+xrdb -load ~/.Xresources &
+
 # Set Hotkeys
 xmodmap ~/.Xmodmap &
 exec autokey &
@@ -15,14 +17,14 @@ feh --bg-fill --randomize ~/.config/wallpapers/ &
 #exec copyq &
 
 # Start Alacritty
-/usr/bin/alacritty -e tmux & 
+#/usr/bin/alacritty -e tmux & 
 
 # Set Opacity
 #compton &
-#picom &
+picom &
 
 # Start Window Manager
-dwmblocks &
+#dwmblocks &
 exec dwm
 #exec awesome
 

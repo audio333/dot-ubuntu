@@ -4,7 +4,7 @@
 super + p
     rofi -show drun
 
-super + y
+#super + y
     ytfzf -D
 
 #super + shift + x
