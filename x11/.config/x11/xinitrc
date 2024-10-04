@@ -1,7 +1,7 @@
-xrdb -load ~/.Xresources &
+xrdb -load ~/.config/x11/.Xresources &
 
 # Set Hotkeys
-xmodmap ~/.Xmodmap &
+xmodmap ~/.config/x11/.Xmodmap &
 exec autokey &
 xcape -e 'Super_L=Escape' &
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
@@ -10,7 +10,7 @@ sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 # Set wallpaper
 # pywal
 # wal -q -i ~/.config/wallpapers/ &
-feh --bg-fill --randomize ~/.config/wallpapers/ &
+feh --no-fehbg --bg-fill --randomize ~/.config/wallpapers/ &
 # xwallpaper --zoom ~/.config/wallpapers/wall.jpg &
 
 # Clipboard
