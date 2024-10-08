@@ -4,6 +4,12 @@
 super + p
     rofi -show drun
 
+super + shift + c
+    ~/.local/bin/dmenu-cmus
+
+super + g
+    ~/.local/bin/dmenu-handler
+
 #super + y
     ytfzf -D
 
