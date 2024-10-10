@@ -53,7 +53,7 @@
 		"peerflix_player": "--mpv",
 		"peerflix_player_args": "",
 		"peerflix_port": "--port=8888",
-		"peerflix_path": "Movies",
+		"peerflix_path": "movie",
 		"peerflix_command": "peerflix",
 		"use_subtitle": "false",
 		"subtitle_language": "eng",

@@ -72,15 +72,19 @@
     sudo apt install git stow
 
     # clone dotfiles
-    cd ~
+    mkdir -p ~/source-code
+    cd ~/source-code
     git clone https://github.com/audio333/dot-ubuntu.git
 
     #backup current dotfiles
-    mkdir -p ~/Downloads/stowbackup
-    mv ~/.bashrc ~/Downloads/stowbackup
-
+    mkdir -p ~/download/stowbackup
+    mv ~/.bashrc ~/download/stowbackup
+    
     # symlink all files in dotfiles dir to home dir
-    cd ~/dot-server
+    cd ~/source-code/dot-ubuntu
+     
+    # manually symlink bin (scripts) dir to .local dir
+    ln -s ~/source-code/dot-ubuntu/bin ~/.local/
 
     # link only folders (trailing slash)
     stow -v -t ~ */
@@ -92,7 +96,7 @@
         # redo link (-R)
         stow -v -R -t ~ */
         stow -v -R -t ~ tmux
-
-
-    src: https://github.com/gotbletu
-
+        
+    # change to zsh shell
+    sudo apt install zsh
+    chsh -s $(which zsh)
