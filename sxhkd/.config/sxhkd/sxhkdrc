@@ -4,17 +4,20 @@
 super + p
     rofi -show drun
 
+super + shift + F4
+    ~/.local/bin/dm-sysact
+
 super + shift + c
-    ~/.local/bin/dmenu-cmus
+    ~/.local/bin/dm-cmus
+
+super + o
+    ~/.local/bin/dm-search
 
 super + g
-    ~/.local/bin/dmenu-handler
+    ~/.local/bin/dm-handler
 
 #super + y
-    ytfzf -D
-
-#super + shift + x
-#    slock
+#    ytfzf -D
 
 control + alt + v
     copyq menu

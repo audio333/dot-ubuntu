@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# A dmenu wrapper script for system functions.
+chosen=$(printf "  Lock\n  Hibernate\n  Reboot\n⏻  Power Off\n  Suspend\n󰶐  Display Off" | dmenu -i -p 'Action: ')
+
+case "$chosen" in
+	'  Lock') slock ;;
+	'  Hibernate') slock systemctl hibernate -i ;;
+	'  Reboot') systemctl reboot -i ;;
+	'⏻  Power Off') systemctl poweroff -i ;;
+	'  Suspend') slock systemctl suspend -i ;;
+	'󰶐  Display Off') xset dpms force off ;;
+	*) exit 1 ;;
+esac

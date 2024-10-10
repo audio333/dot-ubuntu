@@ -1,0 +1,19 @@
+#!/bin/sh
+args=$(true | dmenu -i -p 'Search: ')
+
+if [ "$args" = "" ]; then exit; fi
+
+site=$(printf "$args" | awk '{print $1}')
+search=$(printf "$args" | sed "s/^[^ ]* //")
+
+case "$site" in
+  yt) $BROWSER "https://www.youtube.com/results?search_query=${search}" ;;
+  gh) $BROWSER "https://github.com/${search}?tab=repositories" ;;
+  rdt) $BROWSER "https://www.reddit.com/search/?q=${search}" ;;
+  so) $BROWSER "http://stackoverflow.com/search?q=${search}" ;;
+  sh) $BROWSER "https://shopee.ph/search?keyword=${search}" ;;
+  lz) $BROWSER "https://www.lazada.com.ph/catalog/?q=${search}" ;;
+  *.com*|*.org*|*.ph*|*.net*) $BROWSER "$search" ;;
+  *) $BROWSER "https://google.com/search?q=${args}" ;;
+esac
+

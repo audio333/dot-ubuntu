@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # select a song using dmenu
 SELECTED="$(find ~/music/* -name '*.m4a' | cut -d'/' -f5- | dmenu -i -l 30 -p "CMUS Change Song > ")"
 
