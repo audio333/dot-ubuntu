@@ -8,7 +8,7 @@
 
 ### APT
 * `$ sudo apt install xorg sxhkd autokey-gtk xcape rofi awesome i3 i3blocks`
-* `$ sudo apt install qutebrowser zathura pcmanfm feh sxiv mousepad cmus pavucontrol pulsemixer pulseaudio-module-bluetooth`
+* `$ sudo apt install qutebrowser zathura pcmanfm feh nsxiv mousepad cmus pavucontrol pulsemixer pulseaudio-module-bluetooth`
 * `$ sudo apt install zip unzip copyq task-spooler transmission-daemon transmission-cli transmission-common dict dict-gcide dict-wn scrot ncdu lm-sensors ppa-purge dbus-x11 network-manager`
 * `$ sudo apt install compton lxappearance mate-themes numix-gtk-theme`
 * `$ sudo apt remove gdm3`
