@@ -4,6 +4,9 @@
 super + p
     rofi -show drun
 
+super + shift + q
+    kill $(pidof mpv)
+
 super + shift + F4
     ~/.local/bin/dm-sysact
 
