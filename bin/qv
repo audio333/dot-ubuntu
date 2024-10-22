@@ -1,24 +1,48 @@
-#!/bin/zsh
+#!/bin/bash
+
+watch() {
+  url="$1"
+  format="$2"
+  src="yt"
+
+  TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title="$src" "$url" >/dev/null 2>&1
+}
+
+dl() {
+  url="$1"
+  format="$2"
+
+  case "$format" in
+    m4a) format="139" ;;
+    360) format="134+139" ;;
+    480) format="135+139" ;; # default format
+    720) format="136+139" ;;
+    1080) format="137+139" ;;
+  esac >/dev/null
+
+  TS_SOCKET=/tmp/dl tsp yt-dlp -o "%(title)s - %(uploader)s.%(ext)s" --embed-metadata --restrict-filenames --format "$format" "$url"
+}
 
 log_history() {
-  link=$1
+  url=$1
   hist=$2
   title=$(yt-dlp --skip-download --get-title $1)
 
-  if grep -q "$link" "$hist"; then
+  if grep -q "$url" "$hist"; then
     echo "already watched - ${title}"
   else
-    echo "${link}          # ${title}" >> "$hist" 
+    echo "${url}          # ${title}" >> "$hist" 
     echo "url saved - ${title}"
   fi
 }
 
-play() {
+get_files_or_urls() {
 dir="$HOME/video"
 hist="$HOME/.local/share/yt_history"
 urls=() # array
 format="480"
 src="yt"
+mode=""
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -61,6 +85,9 @@ while [ $# -gt 0 ]; do
       format="$2"
     fi
     ;;
+    -D) # change mode to dl
+    mode="dl"
+    ;;
   esac
 
   shift
@@ -69,15 +96,21 @@ done
 # check if link is valid
 regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
 
+# play, log or dl urls
 for url in ${urls[@]}; do
-    if [[ $url =~ $regex ]]; then
-      # use task spooler then log to yt_history
-      TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title="$src" "$url" >/dev/null 2>&1
+  if [[ $url =~ $regex ]]; then
+
+    if [[ -z $mode ]]; then
+      play "$url" "$format"
       log_history "$url" "$hist"
     else
-      echo "Invalid URL"
+      dl "$url" "$format" 
     fi
+
+  else
+    echo "Invalid URL"
+  fi
 done
 }
 
-play "$@"
+get_files_or_urls "$@"
