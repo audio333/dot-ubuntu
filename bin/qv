@@ -1,0 +1,83 @@
+#!/bin/zsh
+
+log_history() {
+  link=$1
+  hist=$2
+  title=$(yt-dlp --skip-download --get-title $1)
+
+  if grep -q "$link" "$hist"; then
+    echo "already watched - ${title}"
+  else
+    echo "${link}          # ${title}" >> "$hist" 
+    echo "url saved - ${title}"
+  fi
+}
+
+play() {
+dir="$HOME/video"
+hist="$HOME/.local/share/yt_history"
+urls=() # array
+format="480"
+src="yt"
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -y) # ytfzf 
+    for link in $(ytfzf -L | xargs); do 
+      urls+=("$link")
+    done
+    ;;
+    -d) # dir
+    if [[ -z "$2" || "$2" == -* ]]; then
+      echo "default dir: ${dir}"
+    else
+      [[ -d "$2" ]] && dir="$2"
+    fi
+
+    find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
+      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit=854x480 --title="local" "$dir/$song" >/dev/null 2>&1
+    done
+    ;;
+    -f) # yt_history / file with list of urls
+    if [[ -z "$2" || "$2" == -* ]]; then
+      echo "default hist file: ${hist}"
+    else
+      [[ -f "$2" ]] && hist="$2"
+    fi
+
+    for link in $(grep -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1); do 
+      urls+=("$link")
+    done
+    ;;
+    -u) # url
+    [[ -z "$2" || "$2" == -* ]] && echo "Link not specified"
+
+    urls+=("$2")
+    ;;
+    -F) # video format
+    if [[ -z "$2" || "$2" == -* ]]; then
+      echo "default format: ${format}"
+    else
+      format="$2"
+    fi
+    ;;
+  esac
+
+  shift
+done
+
+# check if link is valid
+regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
+
+for url in ${urls[@]}; do
+    if [[ $url =~ $regex ]]; then
+      # use task spooler then log to yt_history
+      TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title="$src" "$url" >/dev/null 2>&1
+      log_history "$url" "$hist"
+    else
+      echo "Invalid URL"
+    fi
+done
+}
+
+play "$@"
