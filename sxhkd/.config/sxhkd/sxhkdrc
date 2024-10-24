@@ -7,6 +7,9 @@ super + p
 super + shift + q
     kill $(pidof mpv)
 
+super + shift + p
+    ~/.local/bin/pauseallmpv
+
 super + shift + F4
     ~/.local/bin/dm-sysact
 

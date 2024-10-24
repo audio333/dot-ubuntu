@@ -7,6 +7,9 @@ xcape -e 'Super_L=Escape' &
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 # exec ulauncher &
 
+# notification
+dunst &
+
 # Set wallpaper
 # pywal
 # wal -q -i ~/.config/wallpapers/ &
