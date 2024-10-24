@@ -96,12 +96,12 @@ done
 # check if link is valid
 regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
 
-# play, log or dl urls
+# watch, log or dl urls
 for url in ${urls[@]}; do
   if [[ $url =~ $regex ]]; then
 
     if [[ -z $mode ]]; then
-      play "$url" "$format"
+      watch "$url" "$format"
       log_history "$url" "$hist"
     else
       dl "$url" "$format" 
