@@ -22,21 +22,57 @@ super + o
 super + g
     ~/.local/bin/dm-handler
 
-#super + y
-#    ytfzf -D
+super + b
+    ~/.local/bin/dm-bookmarks
 
 control + alt + v
     copyq menu
 
+# CMUS remote controls
+hyper + x
+    cmus-remote -c -q  # clear queue
+
+hyper + p
+    cmus-remote -p  # play
+
+hyper + u
+    cmus-remote -u  # toggle play / pause
+
+hyper + s
+    cmus-remote -s  # stop
+
+hyper + n
+    cmus-remote -n  # next
+
+hyper + r
+    cmus-remote -r  # prev
+
+hyper + equal
+    cmus-remote -v +5%
+
+hyper + minus 
+    cmus-remote -v -5%
+
 # Media player controls
 XF86AudioPlay 
-    playerctl play
+    cmus-remote -u
 
-XF86AudioPause 
-    playerctl pause
+# XF86AudioPause 
+#     cmus-remote -u 
 
 XF86AudioNext 
-    playerctl next
+    cmus-remote -n 
 
 XF86AudioPrev 
-    playerctl previous
+    cmus-remote -r 
+
+XF86AudioRaiseVolume 
+    cmus-remote -v +5%
+
+XF86AudioLowerVolume 
+    cmus-remote -v -5%
+
+XF86AudioStop 
+    cmus-remote -s 
+
+# XF86AudioMute 

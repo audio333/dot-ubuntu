@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+queue () {
+  dir="$HOME/music"
+
+  find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
+    cmus-remote -q "$dir/$song" 
+  done
+}
+
+selected () {
+  case $1 in
+    -c) cmus-remote -c -q && queue && cmus-remote -n -p ;; # clear queue list & play new added queues;
+    *) queue ;;
+  esac
+}
+
+selected $1
