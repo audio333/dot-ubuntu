@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file="$HOME/.local/share/snippets"
+file="$HOME/.local/share/saved/snippets"
 bookmark="$(xclip -o)"
 
 add () {
@@ -19,7 +19,7 @@ update () {
 }
 
 selected () {
-  choice=$(echo " Save\n Edit\n$(grep -v '^#' ~/.local/share/snippets)" | dmenu -l 50 -i -p "Choose snippets or add new: ")
+  choice=$(echo " Save\n Edit\n$(grep -v '^#' "$file")" | dmenu -l 50 -i -p "Choose snippets or add new: ")
   case $choice in
     " Save") add ;;
     " Edit") update ;;

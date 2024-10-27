@@ -38,7 +38,7 @@ log_history() {
 
 get_files_or_urls() {
 dir="$HOME/video"
-hist="$HOME/.local/share/yt_history"
+hist="$HOME/.local/share/saved/yt_history"
 urls=() # array
 format="480"
 src="yt"
