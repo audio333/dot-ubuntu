@@ -1,0 +1,26 @@
+#!/bin/sh
+
+dir="$HOME/.local/bin"
+
+newscript () {
+  read -p "Enter a script name: " name
+  [ -z "$name" ] && exit
+
+  touch "$dir/$name"
+  chmod +x "$dir/$name"
+  echo "#!/bin/sh" >> "$dir/$name"
+  notify-send "$name script created" 
+
+  setsid -f "$TERMINAL" -e nvim "$dir/$name" >/dev/null 2>&1
+}
+
+selected () {
+  choice="$(echo "New script\n$(find "$dir/" -executable -type f)" | fzf --layout reverse --preview="batcat --color=always {}")"
+
+  case $choice in
+    "New script") newscript ;;
+    *) [ -f "$choice" ] && $EDITOR "$choice"
+  esac
+}
+
+selected
