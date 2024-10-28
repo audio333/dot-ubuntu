@@ -3,9 +3,9 @@
 watch() {
   url="$1"
   format="$2"
-  src="yt"
+  title="$3"
 
-  TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title="$src" "$url" >/dev/null 2>&1
+  TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title=" YT - $title" "$url" >/dev/null 2>&1
 }
 
 dl() {
@@ -26,7 +26,7 @@ dl() {
 log_history() {
   url=$1
   hist=$2
-  title=$(yt-dlp --skip-download --get-title $1)
+  title=$3
 
   if grep -q "$url" "$hist"; then
     echo "already watched - ${title}"
@@ -41,7 +41,6 @@ dir="$HOME/video"
 hist="$HOME/.local/share/saved/yt_history"
 urls=() # array
 format="480"
-src="yt"
 mode=""
 
 while [ $# -gt 0 ]; do
@@ -59,7 +58,7 @@ while [ $# -gt 0 ]; do
     fi
 
     find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
-      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit=854x480 --title="local" "$dir/$song" >/dev/null 2>&1
+      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit=854x480 --title=" Local - $(basename -- "$song")" "$dir/$song" >/dev/null 2>&1
     done
     ;;
     -f) # yt_history / file with list of urls
@@ -99,10 +98,13 @@ regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]
 # watch, log or dl urls
 for url in ${urls[@]}; do
   if [[ $url =~ $regex ]]; then
+  
+    # --simulate - Do not download the video and do not write anything to disk
+    title="$(yt-dlp --simulate --print "%(title)s - %(channel)s" "$url")" 
 
     if [[ -z $mode ]]; then
-      watch "$url" "$format"
-      log_history "$url" "$hist"
+      watch "$url" "$format" "$title"
+      log_history "$url" "$hist" "$title"
     else
       dl "$url" "$format" 
     fi
