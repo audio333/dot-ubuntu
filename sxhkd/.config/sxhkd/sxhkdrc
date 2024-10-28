@@ -28,6 +28,12 @@ super + b
 control + alt + v
     copyq menu
 
+super + shift + u
+    picom-trans -c -10
+
+super + shift + i
+    picom-trans -c +10
+
 # CMUS remote controls
 hyper + x
     cmus-remote -c -q  # clear queue
