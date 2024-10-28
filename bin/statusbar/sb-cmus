@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$(cmus-remote -Q | grep -ohe 'status .*' | awk '{ print $2 }')" in
+  "playing") status=" " ;;
+  "paused") status=" " ;;
+  "stopped") status="󰝚 " ;;
+esac
+
+songname="$(cmus-remote -Q | grep -ohe 'file .*' | sed "s/^[^ ]* //" | cut -d'/' -f6-)"
+
+echo " $status$songname"
