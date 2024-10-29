@@ -1,11 +1,12 @@
 #!/bin/sh
 
-case "$(cmus-remote -Q | grep -ohe 'status .*' | awk '{ print $2 }')" in
-  "playing") status=" " ;;
-  "paused") status=" " ;;
-  "stopped") status="󰝚 " ;;
-esac
-
+status="$(cmus-remote -Q | grep -ohe 'status .*' | awk '{ print $2 }')"
+vol="$(cmus-remote -Q | grep -ohe 'vol_left .*' | awk '{ print $2 }')"
 songname="$(cmus-remote -Q | grep -ohe 'file .*' | sed "s/^[^ ]* //" | cut -d'/' -f6-)"
 
-echo " $status$songname"
+case $status in
+  playing) echo " $vol%" && dunstify "$songname" -r 9993 -t 3000 ;;
+  paused) echo " $vol% $songname";;
+  stopped) echo "󰎊 $vol% $songname" ;;
+  *) echo "" ;;
+esac

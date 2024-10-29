@@ -8,17 +8,9 @@ queue () {
   done
 }
 
-playlist () {
-  find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
-    cmus-remote -p "$dir/$song" 
-  done
-}
-
-
 selected () {
   case $1 in
-    -c) cmus-remote -c -q && queue && cmus-remote -n -p ;; # clear queue list & play new added queues;
-    -p) playlist ;;
+    -c) cmus-remote -c -q && queue ;; # clear queue list & add new queues;
     *) queue ;;
   esac
 }
