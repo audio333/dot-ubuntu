@@ -4,11 +4,11 @@
 super + p
     rofi -show drun
 
-super + shift + q
-    kill $(pidof mpv)
+#super + shift + q
+#    kill $(pidof mpv)
 
-super + shift + p
-    ~/.local/bin/pauseallmpv
+#super + shift + p
+#    ~/.local/bin/pauseallmpv
 
 super + shift + F4
     ~/.local/bin/dm-sysact
@@ -34,51 +34,50 @@ super + shift + u
 super + shift + i
     picom-trans -c +10
 
-# CMUS remote controls
-hyper + x
-    cmus-remote -c -q  # clear queue
-
-hyper + p
-    cmus-remote -p  # play
-
-hyper + u
-    cmus-remote -u  # toggle play / pause
-
-hyper + s
-    cmus-remote -s  # stop
-
-hyper + n
-    cmus-remote -n  # next
-
-hyper + r
-    cmus-remote -r  # prev
-
-hyper + equal
-    cmus-remote -v +5%
+### CMUS remote controls
 
 hyper + minus 
-    cmus-remote -v -5%
+    ~/.local/bin/cmus-volume down
+    # cmus-remote -v -5% && pkill -RTMIN+11 dwmblocks
 
-# Media player controls
-XF86AudioPlay 
-    cmus-remote -u
+hyper + equal
+    ~/.local/bin/cmus-volume up
+    # cmus-remote -v +5% && pkill -RTMIN+11 dwmblocks
 
-# XF86AudioPause 
-#     cmus-remote -u 
+hyper + r
+    cmus-remote -r && pkill -RTMIN+11 dwmblocks   # prev
 
-XF86AudioNext 
-    cmus-remote -n 
+hyper + n
+    cmus-remote -n && pkill -RTMIN+11 dwmblocks   # next
 
-XF86AudioPrev 
-    cmus-remote -r 
+hyper + u
+    cmus-remote -u && pkill -RTMIN+11 dwmblocks   # toggle play / pause
 
-XF86AudioRaiseVolume 
-    cmus-remote -v +5%
+hyper + s
+    cmus-remote -s && pkill -RTMIN+11 dwmblocks   # stop
+
+hyper + x
+    cmus-remote -c -q && pkill -RTMIN+11 dwmblocks   # clear queue
+
+### MPV player controls
 
 XF86AudioLowerVolume 
-    cmus-remote -v -5%
+    playerctl --player=mpv volume 0.2-
+
+XF86AudioRaiseVolume 
+    playerctl --player=mpv volume 0.2+
+
+XF86AudioPrev 
+    playerctl --player=mpv previous
+
+XF86AudioNext 
+    playerctl --player=mpv next
+
+XF86AudioPlay 
+    playerctl --player=mpv play-pause
+
+XF86AudioPause 
+    playerctl --player=mpv play-pause
 
 XF86AudioStop 
-    cmus-remote -s 
-
-# XF86AudioMute 
+    playerctl --player=mpv stop

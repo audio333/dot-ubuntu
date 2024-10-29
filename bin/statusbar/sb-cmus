@@ -5,7 +5,7 @@ vol="$(cmus-remote -Q | grep -ohe 'vol_left .*' | awk '{ print $2 }')"
 songname="$(cmus-remote -Q | grep -ohe 'file .*' | sed "s/^[^ ]* //" | cut -d'/' -f6-)"
 
 case $status in
-  playing) echo " $vol%" && dunstify "$songname" -r 9993 -t 3000 ;;
+  playing) echo " $vol%" && dunstify "$songname" -r 9893 -t 2000 ;;
   paused) echo " $vol% $songname";;
   stopped) echo "󰎊 $vol% $songname" ;;
   *) echo "" ;;

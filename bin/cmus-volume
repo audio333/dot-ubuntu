@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Increment or decrement CMUS volume and send a notification
+# of the current volume level.
+
+send_notification() {
+	volume="$(cmus-remote -Q | grep -ohe 'vol_left .*' | awk '{ print $2 }')"
+	dunstify -a "cmus-volume" -u low -r 9993 -h int:value:"$volume" "  ${volume}%" -t 2000
+}
+
+case $1 in
+  up)
+    cmus-remote -v +5% && pkill -RTMIN+11 dwmblocks
+    send_notification "$1"
+	;;
+  down)
+    cmus-remote -v -5% && pkill -RTMIN+11 dwmblocks
+    send_notification "$1"
+	;;
+esac

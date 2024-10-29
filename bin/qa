@@ -3,15 +3,23 @@
 dir="$HOME/music"
 
 queue () {
+  # add selected songs to queue
   find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
     cmus-remote -q "$dir/$song" 
   done
+
+  # update dwmblocks module 
+  pkill -RTMIN+11 dwmblocks 
 }
 
 selected () {
   case $1 in
-    -c) cmus-remote -c -q && queue ;; # clear queue list & add new queues;
-    *) queue ;;
+    -c) # clear cmus queue list, queue & play queued song
+      cmus-remote -c -q && queue && cmus-remote -n -p
+    ;; 
+    *) 
+      queue 
+    ;; 
   esac
 }
 
