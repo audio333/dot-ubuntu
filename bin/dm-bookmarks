@@ -23,7 +23,7 @@ selected () {
   case $choice in
     " Save") add ;;
     " Edit") update ;;
-    *) xdotool type $choice ;;
+    *) xdotool type "$choice" ;;
   esac
 }
 

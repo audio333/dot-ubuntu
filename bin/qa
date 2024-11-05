@@ -4,7 +4,7 @@ dir="$HOME/music"
 
 queue () {
   # add selected songs to queue
-  find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
+  find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse --prompt="Queue a song(s): " | while read -r song; do
     cmus-remote -q "$dir/$song" 
   done
 
