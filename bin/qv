@@ -1,11 +1,34 @@
 #!/bin/bash
 
-watch() {
+play_local() {
+  files="$1"
+  mode="$2"
+  screen="$3"
+
+  find $files -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
+    if [[ -z $mode ]]; then
+      # video
+      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit="$screen" --title=" Local - $(basename -- "$song")" "$files/$song" >/dev/null 2>&1
+    else
+      # audio
+      TS_SOCKET=/tmp/md tsp mpv --no-video --title=" Local - $(basename -- "$song")" "$files/$song" >/dev/null 2>&1
+    fi
+  done
+}
+ 
+play_online() {
   url="$1"
   format="$2"
   title="$3"
+  screen="$4"
 
-  TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit=854x480 --title=" YT - $title" "$url" >/dev/null 2>&1
+  if [ "$format" == "m4a" ]; then
+    # audio
+    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestaudio/best" --quiet "$url" --title=" YT - $title" "$url" >/dev/null 2>&1
+  else
+    # video
+    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit="$screen" --title=" YT - $title" "$url" >/dev/null 2>&1
+  fi
 }
 
 dl() {
@@ -28,7 +51,7 @@ log_history() {
   hist=$2
   title=$3
 
-  if grep -q "$url" "$hist"; then
+  if grep -a -q "$url" "$hist"; then
     echo "already watched - ${title}"
   else
     echo "${url}          # ${title}" >> "$hist" 
@@ -38,9 +61,10 @@ log_history() {
 
 get_files_or_urls() {
 dir="$HOME/video"
-hist="$HOME/.local/share/saved/yt_history"
+hist="$HOME/.local/share/saved/yt_history.txt"
 urls=() # array
 format="480"
+screen="854x480"
 mode=""
 
 while [ $# -gt 0 ]; do
@@ -57,9 +81,7 @@ while [ $# -gt 0 ]; do
       [[ -d "$2" ]] && dir="$2"
     fi
 
-    find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
-      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit=854x480 --title=" Local - $(basename -- "$song")" "$dir/$song" >/dev/null 2>&1
-    done
+    files=$dir
     ;;
     -f) # yt_history / file with list of urls
     if [[ -z "$2" || "$2" == -* ]]; then
@@ -68,7 +90,7 @@ while [ $# -gt 0 ]; do
       [[ -f "$2" ]] && hist="$2"
     fi
 
-    for link in $(grep -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1); do 
+    for link in $(grep -a -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1); do 
       urls+=("$link")
     done
     ;;
@@ -77,6 +99,15 @@ while [ $# -gt 0 ]; do
 
     urls+=("$2")
     ;;
+    -l) 
+    TS_SOCKET=/tmp/md tsp -l | sed "
+      /ID/d;
+      /finished/d;
+      s/^.*\(Local.*\/home\/\).*$/\1/; 
+      s/^.*\(YT.*http\).*$/\1/;
+      s/\/home\/.*//g;
+      s/http.*//g"
+    ;;
     -F) # video format
     if [[ -z "$2" || "$2" == -* ]]; then
       echo "default format: ${format}"
@@ -84,29 +115,50 @@ while [ $# -gt 0 ]; do
       format="$2"
     fi
     ;;
-    -D) # change mode to dl
-    mode="dl"
+    -S) # screen size
+    if [[ -z "$2" || "$2" == -* ]]; then
+      echo "default screensize: ${screen}"
+    else
+      case "$2" in
+        sm) screen="640x360" ;;
+        sd) screen="854x480" ;;
+        md) screen="1247x700" ;;
+        hd) screen="1280x720" ;;
+        fhd) screen="1920x1080" ;;
+      esac
+    fi
     ;;
+    -D) mode="dl" ;; # change mode to dl
+    -A) mode="audio" ;; # change mode to audio only
   esac
 
   shift
 done
 
+# play offline
+if [ -n "$files" ]; then
+  play_local "$files" "$mode" "$screen" 
+fi
+
 # check if link is valid
 regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
 
-# watch, log or dl urls
+# play online, log or dl
 for url in ${urls[@]}; do
   if [[ $url =~ $regex ]]; then
   
     # --simulate - Do not download the video and do not write anything to disk
     title="$(yt-dlp --simulate --print "%(title)s - %(channel)s" "$url")" 
 
-    if [[ -z $mode ]]; then
-      watch "$url" "$format" "$title"
+    if [ "$mode" == "dl" ]; then
+      dl "$url" "$format" 
+    elif [ "$mode" == "audio" ]; then
+      format="m4a"
+      play_online "$url" "$format" "$title" "$screen"
       log_history "$url" "$hist" "$title"
     else
-      dl "$url" "$format" 
+      play_online "$url" "$format" "$title" "$screen"
+      log_history "$url" "$hist" "$title"
     fi
 
   else
