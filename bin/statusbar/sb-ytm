@@ -1,0 +1,14 @@
+#!/bin/sh
+
+status=$(playerctl --player firefox status)
+title=$(playerctl --player firefox metadata --format "{{ title }} - {{ artist }}")
+player="firefox"
+
+if playerctl --list-all | grep -q "^$player*" && [ "$status" != "Stopped" ]; then
+  case "$status" in
+    Playing) echo " $title" ;;
+    Paused) echo " $title" ;;
+  esac
+else
+  exit 0
+fi

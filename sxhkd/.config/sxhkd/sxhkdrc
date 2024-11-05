@@ -1,38 +1,27 @@
-#super + Return
-#    alacritty 
+### Scripts
+
+super + shift + {F4,c}
+    ~/.local/bin/{dm-sysact,dm-cmus}
+
+super + {o,b,g}
+    ~/.local/bin/{dm-search,dm-bookmarks,dm-handler}
+
+### APPS
+
+# super + shift + q
+#    kill $(pidof mpv)
+#
+# super + shift + p
+#    ~/.local/bin/pauseallmpv
+
+# control + alt + v
+#     copyq menu
 
 super + p
     rofi -show drun
 
-#super + shift + q
-#    kill $(pidof mpv)
-
-#super + shift + p
-#    ~/.local/bin/pauseallmpv
-
-super + shift + F4
-    ~/.local/bin/dm-sysact
-
-super + shift + c
-    ~/.local/bin/dm-cmus
-
-super + o
-    ~/.local/bin/dm-search
-
-super + g
-    ~/.local/bin/dm-handler
-
-super + b
-    ~/.local/bin/dm-bookmarks
-
-control + alt + v
-    copyq menu
-
-super + shift + u
-    picom-trans -c -10
-
-super + shift + i
-    picom-trans -c +10
+super + control + {u,i}
+    picom-trans -c {-10,+10}
 
 ### CMUS remote controls
 
@@ -62,22 +51,41 @@ hyper + x
 ### MPV player controls
 
 XF86AudioLowerVolume 
-    playerctl --player=mpv volume 0.2-
+    playerctl --player=mpv volume 0.2- && pkill -RTMIN+12 dwmblocks
+    # ~/.local/bin/mpv-volume down
 
 XF86AudioRaiseVolume 
-    playerctl --player=mpv volume 0.2+
+    playerctl --player=mpv volume 0.2+ && pkill -RTMIN+12 dwmblocks
+    # ~/.local/bin/mpv-volume up
 
 XF86AudioPrev 
-    playerctl --player=mpv previous
+    playerctl --player=mpv previous && pkill -RTMIN+12 dwmblocks
 
 XF86AudioNext 
-    playerctl --player=mpv next
+    playerctl --player=mpv next && pkill -RTMIN+12 dwmblocks
 
 XF86AudioPlay 
-    playerctl --player=mpv play-pause
+    playerctl --player=mpv play-pause && pkill -RTMIN+12 dwmblocks
 
 XF86AudioPause 
-    playerctl --player=mpv play-pause
+    playerctl --player=mpv play-pause && pkill -RTMIN+12 dwmblocks
 
 XF86AudioStop 
-    playerctl --player=mpv stop
+    playerctl --player=mpv stop && pkill -RTMIN+12 dwmblocks
+
+shift + {F5,F6}
+    playerctl --player=mpv {position 5-,position 5+}
+
+### Firefox YT Music
+
+super + shift + r
+    playerctl --player=firefox previous && pkill -RTMIN+10 dwmblocks 
+
+super + shift + n
+    playerctl --player=firefox next && pkill -RTMIN+10 dwmblocks
+
+super + shift + u
+    playerctl --player=firefox play-pause && pkill -RTMIN+10 dwmblocks
+
+super + shift + s
+    playerctl --player=firefox stop && pkill -RTMIN+10 dwmblocks

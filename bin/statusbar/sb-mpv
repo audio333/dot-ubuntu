@@ -1,0 +1,20 @@
+#!/bin/sh
+
+sleep 0.2
+
+if playerctl --list-all | grep -q "mpv" && [ "$status" != "Stopped" ]; then
+  num=$(TS_SOCKET=/tmp/md tsp -l | awk -v numr=0 -v numq=0 '{if (/running/)numr++; if (/queued/)numq++} END{print numr+numq"("numq")"}')
+
+  status=$(playerctl --player mpv status)
+  vol=$(playerctl --player mpv volume | awk '{print $1 + 0}')
+  title=$(playerctl --player mpv metadata --format "{{ title }} - {{ artist }}")
+
+  case "$status" in
+    Playing) echo "󰐑 $num |  $vol% $title" ;;
+    Paused) echo "󰐑 $num | 󱖐 $vol% $title" ;;
+  esac
+else
+  exit 0 
+fi
+ 
+
