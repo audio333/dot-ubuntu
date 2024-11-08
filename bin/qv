@@ -8,10 +8,10 @@ play_local() {
   find $files -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
     if [[ -z $mode ]]; then
       # video
-      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit="$screen" --title=" Local - $(basename -- "$song")" "$files/$song" >/dev/null 2>&1
+      TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit="$screen" --title=" Local - $(basename -- "$song") - mpv" "$files/$song" >/dev/null 2>&1
     else
       # audio
-      TS_SOCKET=/tmp/md tsp mpv --no-video --title=" Local - $(basename -- "$song")" "$files/$song" >/dev/null 2>&1
+      TS_SOCKET=/tmp/md tsp mpv --no-video --title=" Local - $(basename -- "$song") - mpv" "$files/$song" >/dev/null 2>&1
     fi
   done
 }
@@ -24,10 +24,10 @@ play_online() {
 
   if [ "$format" == "m4a" ]; then
     # audio
-    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestaudio/best" --quiet "$url" --title=" YT - $title" "$url" >/dev/null 2>&1
+    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestaudio/best" --quiet "$url" --title=" YT - $title - mpv" "$url" >/dev/null 2>&1
   else
     # video
-    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit="$screen" --title=" YT - $title" "$url" >/dev/null 2>&1
+    TS_SOCKET=/tmp/md tsp mpv --ytdl-format="bestvideo[height<=?${format}]+bestaudio/best" --quiet --geometry=-15-60 --autofit="$screen" --title=" YT - $title - mpv" "$url" >/dev/null 2>&1
   fi
 }
 
@@ -64,15 +64,13 @@ dir="$HOME/video"
 hist="$HOME/.local/share/saved/yt_history.txt"
 urls=() # array
 format="480"
-screen="854x480"
+screen="1247x700"
 mode=""
 
 while [ $# -gt 0 ]; do
   case $1 in
     -y) # ytfzf 
-    for link in $(ytfzf -L | xargs); do 
-      urls+=("$link")
-    done
+    urls+=$(ytfzf -L | xargs)
     ;;
     -d) # dir
     if [[ -z "$2" || "$2" == -* ]]; then
@@ -90,9 +88,7 @@ while [ $# -gt 0 ]; do
       [[ -f "$2" ]] && hist="$2"
     fi
 
-    for link in $(grep -a -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1); do 
-      urls+=("$link")
-    done
+    urls+=$(grep -a -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1)
     ;;
     -u) # url
     [[ -z "$2" || "$2" == -* ]] && echo "Link not specified"

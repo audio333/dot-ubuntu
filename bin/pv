@@ -1,0 +1,75 @@
+#!/bin/bash
+
+case "$1" in
+  left) positions=("sd bl" "sm bl" "sm cl" "sm tl") ;;
+  center) positions=("sd c" "sm tc" "sm bc" "md c") ;;
+  right) positions=("sd br" "sm br" "sm cr" "sm tr") ;;
+esac
+ 
+state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
+index=$(cat "$state" 2>/dev/null)      # Retrieve last index
+nPositions=${#positions[@]}            # Number of entries in positions()
+
+# Set current index to zero if first time, otherwise next value in sequence
+case "$2" in
+  up) [[ -z $index ]] && index=0 || index=$((++index % nPositions)) ;;
+  down) [[ -z $index ]] && index=0 || index=$((--index % nPositions)) ;;
+esac
+
+printf "%d\n" $index >"$state"        # Save new index
+# echo "State index=$index: ${positions[index]}"
+
+# Move / resize the mpv window
+move ()
+{
+  case "$1" in
+    sm) 
+      width="640"
+      height="360"
+      xl="10"
+      xc="630"
+      xr="1265"
+      yt="30"
+      yc="350"
+      yb="704"
+    ;;
+    sd)
+      width="854"
+      height="480"
+      xl="10"
+      xc="530"
+      xr="1050" 
+      yt="30"
+      yc="630"
+      yb="584"
+    ;;
+    md)
+      width="1247"
+      height="700"
+      xc="334"
+      yc="630"
+    ;;
+    fhd)
+      width="1920"
+      height="1080"
+      xc="0"
+      yc="0"
+    ;;
+  esac
+
+  case "$2" in
+    tl) axis="0,$xl,$yt" ;;
+    tc) axis="0,$xc,$yt" ;;
+    tr) axis="0,$xr,$yt" ;;
+    cl) axis="0,$xl,$yc" ;;
+    c) axis="0,$xc,$yc" ;;
+    cr) axis="0,$xr,$yc" ;;
+    bl) axis="0,$xl,$yb" ;;
+    bc) axis="0,$xc,$yb" ;;
+    br) axis="0,$xr,$yb" ;;
+  esac
+
+  wmctrl -r mpv -e "$axis,$width,$height"
+}
+
+move ${positions[index]} 

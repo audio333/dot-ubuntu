@@ -33,16 +33,16 @@ hyper + equal
     ~/.local/bin/cmus-volume up
     # cmus-remote -v +5% && pkill -RTMIN+11 dwmblocks
 
-hyper + r
+hyper + z
     cmus-remote -r && pkill -RTMIN+11 dwmblocks   # prev
 
-hyper + n
+hyper + b
     cmus-remote -n && pkill -RTMIN+11 dwmblocks   # next
 
-hyper + u
+hyper + c
     cmus-remote -u && pkill -RTMIN+11 dwmblocks   # toggle play / pause
 
-hyper + s
+hyper + v
     cmus-remote -s && pkill -RTMIN+11 dwmblocks   # stop
 
 hyper + x
@@ -75,6 +75,15 @@ XF86AudioStop
 
 shift + {F5,F6}
     playerctl --player=mpv {position 5-,position 5+}
+
+# hyper + {a,s,d,f,q,w,e,r}
+#     ~/.local/bin/pv {sm bl,sm bc,sd c,sd br,sm tl,sm tc,md c,sm tr} 
+
+hyper + {a,s,d}
+    ~/.local/bin/pv {left up,center up,right up}
+
+alt + hyper + {a,s,d}
+    ~/.local/bin/pv {left down,center down,right down}
 
 ### Firefox YT Music
 
