@@ -1,26 +1,79 @@
 #!/usr/bin/bash
 
-dir="$HOME/music"
+stationlist="$HOME/.local/share/saved/stations.csv"
 
-queue () {
-  # add selected songs to queue
-  find $dir -mindepth 1 -printf '%P\n' | fzf -m --layout reverse --prompt="Queue a song(s): " | while read -r song; do
-    cmus-remote -q "$dir/$song" 
+export FZF_DEFAULT_OPTS="-i --layout=reverse --bind 'home:first,end:last'"
+
+select_station() {
+  selected="$( grep -nH , "$stationlist" | sed -e 's/:/,/' -e 's/:/,/' | \
+    fzf -d , --with-nth -2 \
+    --info=hidden --scroll-off=5 --tiebreak=index \
+    --prompt="radio stations: " \
+    --bind 'ctrl-x:execute:playerctl --player=mpv stop >/dev/null 2>&1' \
+    --bind "ctrl-r:reload:grep -nH , $stationlist | sed -e 's/:/,/' -e 's/:/,/'" \
+    --header 'C-x:stop C-r:reload C-j/k/n/p|home/end:navigate' \
+    )"
+  [ -z "$selected" ] && exit
+  selected="$(echo "$selected" | cut -d ',' -f4)"
+  playerctl --player=mpv stop >/dev/null 2>&1
+  setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
+  sleep 0.2
+}
+
+change_station() {
+  for station in $(grep -a -v '^#' "$stationlist" | sed "s/ /_/g"); do
+    rstations+=("$station")
   done
 
-  # update dwmblocks module 
-  pkill -RTMIN+11 dwmblocks 
-}
+  state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
+  index=$(cat "$state" 2>/dev/null)      # Retrieve last index
+  nRstations=${#rstations[@]}            # Number of entries in positions()
 
-selected () {
-  case $1 in
-    -c) # clear cmus queue list, queue & play queued song
-      cmus-remote -c -q && queue && cmus-remote -n -p
-    ;; 
-    *) 
-      queue 
-    ;; 
+  # Set current index to one if first time, otherwise next value in sequence
+  case "$1" in
+    next) [[ -z $index ]] && index=1 || index=$((++index % nRstations)) ;;
+    prev) [[ -z $index ]] && index=1 || index=$((--index % nRstations)) ;;
   esac
+
+  printf "%d\n" $index >"$state"        # Save new index
+
+  stationname="$(echo "${rstations[index]}" | cut -d ',' -f1)"
+  selected="$(echo "${rstations[index]}" | cut -d ',' -f2)"
+
+  playerctl --player=mpv stop >/dev/null 2>&1
+  setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
+	dunstify "RADIO: $stationname" -u low -r 9993 -t 2000
+  sleep 0.2
 }
 
-selected $1
+queues() {
+  dir="$HOME/music"  
+
+  # select multiple songs to queue
+  find $dir -mindepth 1 -printf '%P\n' | fzf -m --prompt="queue a song(s): " | while read -r song; do
+    cmus-remote -q "$dir/$song" 
+  done
+}
+
+queue() {
+  # select a song using dmenu
+  selected="$(find ~/music/* -name '*.m4a' | cut -d'/' -f5- | dmenu -i -l 30 -p "CMUS Change Song > ")"
+  
+  # exit script if no song is selected (e.g hit ESC)
+  [ -z "$selected" ] && exit
+
+  #clear cmus queue list, add selected song to queue, play queued song
+  cmus-remote -c -q && cmus-remote -q "music/$selected" && cmus-remote -n -p
+}
+
+case $1 in
+  -r) select_station ;;
+  -n) change_station next ;;
+  -p) change_station prev ;;
+  -c) cmus-remote -c -q && queues && cmus-remote -n -p ;;
+  -d) queue ;;
+  *) queues ;;
+esac
+  
+# update dwmblocks module 
+pkill -RTMIN+11 dwmblocks

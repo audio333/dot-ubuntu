@@ -1,7 +1,7 @@
 ### Scripts
 
 super + shift + {F4,c}
-    ~/.local/bin/{dm-sysact,dm-cmus}
+    ~/.local/bin/{dm-sysact,qa -d}
 
 super + {o,b,g}
     ~/.local/bin/{dm-search,dm-bookmarks,dm-handler}
@@ -47,6 +47,14 @@ hyper + v
 
 hyper + x
     cmus-remote -c -q && pkill -RTMIN+11 dwmblocks   # clear queue
+
+### MPV Radio
+
+hyper + comma
+    ~/.local/bin/qa -p # prev station
+
+hyper + period 
+    ~/.local/bin/qa -n # next station
 
 ### MPV player controls
 
