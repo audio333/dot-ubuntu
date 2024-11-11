@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# linkhandler
+# Feed script a url or file location.
+# If an image, it will view in nsxiv,
+# if a video or gif, it will view in mpv
+# if a music file or pdf, it will download,
+# otherwise it opens link in browser.
+
+# dmenuhandler
+# Feed this script a link and it will give dmenu
+# some choice programs to use to open it.
+
+feed="${2:-$(true | dmenu -p 'Paste URL or file path')}"
+[ -z "$feed" ] && exit
+
+title="$(echo "$feed" | sed "s|.*/||;s/%20/ /g")"
+
+open_pdf() { curl -sL "$feed" > "/tmp/$title" && zathura "/tmp/$title"  >/dev/null 2>&1 ;}
+open_image() { curl -sL "$feed" > "/tmp/$title" && nsxiv -a "/tmp/$title"  >/dev/null 2>&1 ;}
+open_editor() { curl -sL "$feed" > "/tmp/$title" && setsid -f "$TERMINAL" -e "$EDITOR" "/tmp/$title"  >/dev/null 2>&1 ;}
+open_browser() { setsid -f "$BROWSER" "$feed" >/dev/null 2>&1 ;}
+
+linkhandler() {
+  case "$feed" in
+    *mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*|*odysee.com*) 
+      qv -F 480 -S md -u "$feed" >/dev/null 2>&1 ;;
+    *m4a|*mp3|*flac|*opus|*mp3?source*)
+      qv -A -u "$feed" >/dev/null 2>&1 ;;
+    *png|*jpg|*jpe|*jpeg|*gif|*webp)
+      open_image ;;
+    *pdf|*cbz|*cbr)
+      open_pdf ;;
+    *)
+      [ -f "$feed" ] && open_editor || open_browser ;;
+  esac
+}
+
+dmenuhandler() {
+  case "$(printf "󰉂 auto select\n󰆏 copy url\n mpv 480\n mpv 720\n mpv audio\n queue yt-dlp 480\n queue yt-dlp 720\n queue yt-dlp audio\n nsxiv\n setbg\n PDF\n browser\n vim\n  lynx" | dmenu -i -p "Open it with?")" in
+    "󰉂 auto select") linkhandler ;;
+    "󰆏 copy url") echo "$feed" | xclip -selection clipboard ;;
+    " mpv 480") qv -F 480 -S md -u "$feed" >/dev/null 2>&1 ;;
+    " mpv 720") qv -F 720 -S hd -u "$feed" >/dev/null 2>&1 ;;
+    " mpv audio") qv -A -u "$feed" >/dev/null 2>&1 ;;
+    " queue yt-dlp 480") qv -F 480 -D -u "$feed" >/dev/null 2>&1 ;;
+    " queue yt-dlp 720") qv -F 720 -D -u "$feed" >/dev/null 2>&1 ;;
+    " queue yt-dlp audio") qv -F m4a -D -u "$feed" >/dev/null 2>&1 ;;
+    " PDF") open_pdf ;;
+    " nsxiv") open_image ;;
+    " vim") open_editor ;;
+    " setbg") curl -L "$feed" > $XDG_CACHE_HOME/pic ; xwallpaper --zoom $XDG_CACHE_HOME/pic >/dev/null 2>&1 ;;
+    " browser") open_browser ;;
+    "  lynx") lynx "$feed" >/dev/null 2>&1 ;;
+  esac
+}
+
+case "$1" in
+  -l) linkhandler ;;
+  -d) dmenuhandler ;;
+esac
