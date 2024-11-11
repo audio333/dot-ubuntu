@@ -1,0 +1,49 @@
+#!/bin/sh
+
+snippets="$HOME/.local/share/saved/snippets"
+vocabulary="$HOME/.local/share/saved/words.txt"
+bookmark="$(xclip -o)"
+
+add() {
+  [ -z "$bookmark" ] && exit
+
+  if grep -q "^$bookmark$" "$1"; then
+    notify-send "Oops. Already bookmarked!"
+  else
+    echo "$bookmark" >> "$1"
+    notify-send "Bookmark added! ${bookmark} is now saved to the $(basename -- $1)."
+  fi
+}
+
+update() {
+  setsid -f "$TERMINAL" -e nvim "$1" >/dev/null 2>&1
+}
+
+lists() {
+  choice=$(echo " Save\n Edit\n$(grep -v '^#' "$1")" | dmenu -l 30 -i -p "Select: ")
+  case $choice in
+    " Save") add "$1" ;;
+    " Edit") update "$1" ;;
+    *) xdotool type "$choice" ;;
+  esac
+}
+
+defineword () {
+  definition=$(dict "$1")
+  [ -z "$definition" ] && exit
+
+  printf "$definition \n\n"
+  read -p "Feed definition here: " define
+  [ -z "$define" ] && exit
+
+  echo "${1}    -> ${define}" >> $vocabulary 
+  notify-send "word \"${1}\" has been saved to the $(basename -- $vocabulary)"
+}
+
+while getopts "svw:" flag; do
+  case $flag in
+    s) lists "$snippets" ;;
+    v) lists "$vocabulary" ;;
+    w) defineword "$OPTARG" ;;
+  esac
+done

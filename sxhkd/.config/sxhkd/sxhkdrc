@@ -3,8 +3,11 @@
 super + shift + {F4,c}
     ~/.local/bin/{dm-sysact,qa -d}
 
-super + {o,b,g}
-    ~/.local/bin/{dm-search,dm-bookmarks,dm-handler}
+super + {o,b}
+    ~/.local/bin/{dm-search,bm -s}
+
+hyper + w
+    ~/.local/bin/bm -v
 
 ### APPS
 
