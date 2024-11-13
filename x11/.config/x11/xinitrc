@@ -7,14 +7,14 @@ xcape -e 'Super_L=Escape' &
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 # exec ulauncher &
 
-# notification
+# Notification
 dunst &
 
 # Set wallpaper
-# pywal
-# wal -q -i ~/.config/wallpapers/ &
-feh --no-fehbg --bg-fill --randomize ~/.config/wallpapers/ &
+# wal -q -i ~/.config/wallpapers/ &   # pywal
+# feh --no-fehbg --bg-fill --randomize ~/.config/wallpapers/ &
 # xwallpaper --zoom ~/.config/wallpapers/wall.jpg &
+xwallpaper --zoom $(find ~/picture/Wallpapers -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1) &  # random bg
 
 # Clipboard
 #exec copyq &
