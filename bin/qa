@@ -2,6 +2,14 @@
 
 stationlist="$HOME/.local/share/saved/stations.csv"
 
+for station in $(grep -a -v '^#' "$stationlist" | sed "s/ /_/g"); do
+  rstations+=("$station")
+done
+
+state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
+index=$(cat "$state" 2>/dev/null)      # Retrieve last index
+nRstations=${#rstations[@]}            # Number of entries in stationlist()
+
 export FZF_DEFAULT_OPTS="-i --layout=reverse --bind 'home:first,end:last'"
 
 select_station() {
@@ -17,18 +25,18 @@ select_station() {
   selected="$(echo "$selected" | cut -d ',' -f4)"
   playerctl --player=mpv stop >/dev/null 2>&1
   setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
+  printf "%d\n" 0 >"$state"        # Reset index
   sleep 0.2
 }
 
+set_wallpaper() {
+  dir="$HOME/picture"
+  wallpaper="${1:-/Wallpapers}"
+
+  xwallpaper --zoom $(find "$dir/$wallpaper" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)
+}
+
 change_station() {
-  for station in $(grep -a -v '^#' "$stationlist" | sed "s/ /_/g"); do
-    rstations+=("$station")
-  done
-
-  state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
-  index=$(cat "$state" 2>/dev/null)      # Retrieve last index
-  nRstations=${#rstations[@]}            # Number of entries in positions()
-
   # Set current index to one if first time, otherwise next value in sequence
   case "$1" in
     next) [[ -z $index ]] && index=1 || index=$((++index % nRstations)) ;;
@@ -43,6 +51,14 @@ change_station() {
   playerctl --player=mpv stop >/dev/null 2>&1
   setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
 	dunstify "RADIO: $stationname" -u low -r 9993 -t 2000
+  
+  # Change wallpaper based on rstation's index.
+  case "$index" in
+    0) set_wallpaper "Anime" ;;
+    1) set_wallpaper "Nature" ;;
+    2|5|10|15|20|25) set_wallpaper ;;
+  esac
+
   sleep 0.2
 }
 
@@ -70,6 +86,7 @@ case $1 in
   -r) select_station ;;
   -n) change_station next ;;
   -p) change_station prev ;;
+  -e) $EDITOR "$stationlist";;
   -c) cmus-remote -c -q && queues && cmus-remote -n -p ;;
   -d) queue ;;
   *) queues ;;
