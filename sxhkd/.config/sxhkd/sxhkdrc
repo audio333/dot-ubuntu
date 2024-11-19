@@ -1,10 +1,13 @@
+super + shift + Escape
+    pkill -USR1 -x sxhkd    # Reload sxhkd
+
 ### Scripts
 
-super + shift + {F4,c}
-    ~/.local/bin/{dm-sysact,qa -d}
+super + shift + c
+    ~/.local/bin/qa -d
 
-super + {o,b}
-    ~/.local/bin/{dm-search,bm -s}
+super + o
+    ~/.local/bin/dm-search
 
 hyper + w
     ~/.local/bin/bm -v
