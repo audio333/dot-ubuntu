@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dir="$HOME/.local/bin"
+dir="${1:-$HOME/.local/bin}"
 
 newscript () {
   read -p "Enter a script name: " name
