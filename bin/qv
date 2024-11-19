@@ -1,11 +1,13 @@
 #!/bin/bash
 
+export FZF_DEFAULT_OPTS="-i --multi --layout=reverse --bind 'home:first,end:last'"
+
 play_local() {
   files="$1"
   mode="$2"
   screen="$3"
 
-  find $files -mindepth 1 -printf '%P\n' | fzf -m --layout reverse | while read -r song; do
+  find $files -mindepth 1 -printf '%P\n' | fzf | while read -r song; do
     if [[ -z $mode ]]; then
       # video
       TS_SOCKET=/tmp/md tsp mpv --quiet --geometry=-15-60 --autofit="$screen" --title=" Local - $(basename -- "$song") - mpv" "$files/$song" >/dev/null 2>&1
@@ -88,7 +90,7 @@ while [ $# -gt 0 ]; do
       [[ -f "$2" ]] && hist="$2"
     fi
 
-    urls+=$(grep -a -v '^#' "$hist" | fzf -m --layout reverse | cut -d' ' -f1)
+    urls+=$(grep -a -v '^#' "$hist" | fzf | cut -d' ' -f1)
     ;;
     -u) # url
     [[ -z "$2" || "$2" == -* ]] && echo "Link not specified"
