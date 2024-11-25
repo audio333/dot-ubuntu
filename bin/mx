@@ -1,0 +1,64 @@
+#!/bin/bash
+
+export FZF_DEFAULT_OPTS="-i --layout=reverse --bind 'home:first,end:last'"
+
+switch_session() {
+  if [ "$TERM_PROGRAM" = "tmux" ]; then
+    tmux list-sessions -F '#{session_name}' | \
+      sed '/^$/d' | \
+      fzf --prompt "Switch Session: " --bind 'enter:execute(tmux switch-client -t {})+accept' >/dev/null 2>&1
+  else
+    session="$(tmux ls -F '#{session_name}' | fzf --prompt "Attach Session: " | sed 's/:.*//')"
+    [ -z "$session" ] && exit || tmux attach -t $session >/dev/null 2>&1
+  fi
+}
+ 
+attach_or_create_sessions() {
+  sessions=("$@")
+  nSessions=${#sessions[@]}      # Number of entries in sessions()
+
+  if [ "$nSessions" -gt 1 ]; then
+    for session in ${sessions[@]}; do
+      if tmux has-session -t "$session" >/dev/null 2>&1; then 
+        echo "Session \"${session}\" already exist"
+      else
+        tmux new-session -d -s "$session"
+      fi
+    done
+  elif [ "$nSessions" == 1 ]; then
+    if [ "$TERM_PROGRAM" = "tmux" ]; then
+      tmux switch-client -t "$sessions"
+    else
+      tmux new-session -A -s "$sessions"
+    fi
+  else
+    switch_session
+  fi
+}
+ 
+end_sessions() {
+  sessions="$(tmux ls | fzf -m --prompt "Kill Session(s): " | sed 's/:.*//')"
+  [ -z "$sessions" ] && exit 1
+
+  # kill the selected session(s)
+  for session in ${sessions[@]}; do
+    tmux kill-session -t "$session" && echo "Session \"${session}\" ended"
+  done
+}
+
+popup() {
+  tmux_popup_session_name="_popup"
+
+  if [ "$(tmux display-message -p -F "#{session_name}")" = "${tmux_popup_session_name}" ];then
+    tmux detach-client
+  else
+    tmux popup -d '#{pane_current_path}' -xP -yP -w100% -h50% -B -E\
+    "tmux new-session -A -s ${tmux_popup_session_name}"
+  fi
+}
+
+case $1 in
+  -k) end_sessions ;;
+  -p) popup ;;
+  *) attach_or_create_sessions "$@" ;;
+esac
