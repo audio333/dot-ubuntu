@@ -90,7 +90,7 @@ while [ $# -gt 0 ]; do
       [[ -f "$2" ]] && hist="$2"
     fi
 
-    urls+=$(grep -a -v '^#' "$hist" | fzf | cut -d' ' -f1)
+    urls+=$(tac "$hist" | fzf | cut -d' ' -f1)
     ;;
     -u) # url
     [[ -z "$2" || "$2" == -* ]] && echo "Link not specified"

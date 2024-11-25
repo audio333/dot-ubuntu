@@ -2,10 +2,7 @@
 
 stationlist="$HOME/.local/share/saved/stations.csv"
 
-for station in $(grep -a -v '^#' "$stationlist" | sed "s/ /_/g"); do
-  rstations+=("$station")
-done
-
+rstations+=($(grep -a -v '^#' "$stationlist" | sed "s/ /_/g")) # Array
 state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
 index=$(cat "$state" 2>/dev/null)      # Retrieve last index
 nRstations=${#rstations[@]}            # Number of entries in stationlist()
@@ -17,9 +14,11 @@ select_station() {
     fzf -d , --with-nth -2 \
     --info=hidden --scroll-off=5 --tiebreak=index \
     --prompt="radio stations: " \
+    --bind "ctrl-o:execute:${EDITOR:-nano} +{2} {1} >/dev/tty" \
+    --bind "ctrl-f:execute:${EDITOR:-nano} {1} >/dev/tty" \
     --bind 'ctrl-x:execute:playerctl --player=mpv stop >/dev/null 2>&1' \
     --bind "ctrl-r:reload:grep -nH , $stationlist | sed -e 's/:/,/' -e 's/:/,/'" \
-    --header 'C-x:stop C-r:reload C-j/k/n/p|home/end:navigate' \
+    --header 'C-x:stop C-o:edit-line C-f:edit-file C-r:reload C-j/k/n/p|home/end:navigate'
     )"
   [ -z "$selected" ] && exit
   selected="$(echo "$selected" | cut -d ',' -f4)"
