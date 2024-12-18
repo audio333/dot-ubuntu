@@ -1,66 +1,5 @@
 #!/usr/bin/bash
 
-stationlist="$HOME/.local/share/saved/stations.csv"
-
-rstations+=($(grep -a -v '^#' "$stationlist" | sed "s/ /_/g")) # Array
-state="$HOME/.local/bin/.${0##*/}.dat" # File to maintain state
-index=$(cat "$state" 2>/dev/null)      # Retrieve last index
-nRstations=${#rstations[@]}            # Number of entries in stationlist()
-
-export FZF_DEFAULT_OPTS="-i --layout=reverse --bind 'home:first,end:last'"
-
-select_station() {
-  selected="$( grep -nH , "$stationlist" | sed -e 's/:/,/' -e 's/:/,/' | \
-    fzf -d , --with-nth -2 \
-    --info=hidden --scroll-off=5 --tiebreak=index \
-    --prompt="radio stations: " \
-    --bind "ctrl-o:execute:${EDITOR:-nano} +{2} {1} >/dev/tty" \
-    --bind "ctrl-f:execute:${EDITOR:-nano} {1} >/dev/tty" \
-    --bind 'ctrl-x:execute:playerctl --player=mpv stop >/dev/null 2>&1' \
-    --bind "ctrl-r:reload:grep -nH , $stationlist | sed -e 's/:/,/' -e 's/:/,/'" \
-    --header 'C-x:stop C-o:edit-line C-f:edit-file C-r:reload C-j/k/n/p|home/end:navigate'
-    )"
-  [ -z "$selected" ] && exit
-  selected="$(echo "$selected" | cut -d ',' -f4)"
-  playerctl --player=mpv stop >/dev/null 2>&1
-  setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
-  printf "%d\n" 0 >"$state"        # Reset index
-  sleep 0.2
-}
-
-set_wallpaper() {
-  dir="$HOME/picture"
-  wallpaper="${1:-/Wallpapers}"
-
-  xwallpaper --zoom $(find "$dir/$wallpaper" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)
-}
-
-change_station() {
-  # Set current index to one if first time, otherwise next value in sequence
-  case "$1" in
-    next) [[ -z $index ]] && index=1 || index=$((++index % nRstations)) ;;
-    prev) [[ -z $index ]] && index=1 || index=$((--index % nRstations)) ;;
-  esac
-
-  printf "%d\n" $index >"$state"        # Save new index
-
-  stationname="$(echo "${rstations[index]}" | cut -d ',' -f1)"
-  selected="$(echo "${rstations[index]}" | cut -d ',' -f2)"
-
-  playerctl --player=mpv stop >/dev/null 2>&1
-  setsid mpv --no-video "$selected" >/dev/null 2>&1 & disown
-	dunstify "RADIO: $stationname" -u low -r 9993 -t 2000
-  
-  # Change wallpaper based on rstation's index.
-  case "$index" in
-    0) set_wallpaper "Anime" ;;
-    1) set_wallpaper "Nature" ;;
-    2|5|10|15|20|25) set_wallpaper ;;
-  esac
-
-  sleep 0.2
-}
-
 queues() {
   dir="$HOME/music"  
 
@@ -70,24 +9,27 @@ queues() {
   done
 }
 
-queue() {
+play_song() {
+  song="${1:-$(find ~/music/* -name '*.m4a' | cut -d'/' -f5- | shuf -n 1)}"
+
+  #clear cmus queue list, add random / selected song to queue, play queued song
+  cmus-remote -c -q && cmus-remote -q "music/$song" && cmus-remote -n -p
+}
+
+quick_selection() {
   # select a song using dmenu
-  selected="$(find ~/music/* -name '*.m4a' | cut -d'/' -f5- | dmenu -i -l 30 -p "CMUS Change Song > ")"
+  selected="$(printf "Random song\n$(find ~/music/* -name '*.m4a' | cut -d'/' -f5-)" | dmenu -i -l 30 -p "CMUS Change Song > ")"
   
   # exit script if no song is selected (e.g hit ESC)
   [ -z "$selected" ] && exit
 
-  #clear cmus queue list, add selected song to queue, play queued song
-  cmus-remote -c -q && cmus-remote -q "music/$selected" && cmus-remote -n -p
+  [[ "$selected" == "Random song" ]] && play_song || play_song "$selected"
 }
 
 case $1 in
-  -r) select_station ;;
-  -n) change_station next ;;
-  -p) change_station prev ;;
-  -e) $EDITOR "$stationlist";;
+  -s) quick_selection ;;
+  -p) play_song ;;
   -c) cmus-remote -c -q && queues && cmus-remote -n -p ;;
-  -d) queue ;;
   *) queues ;;
 esac
   
