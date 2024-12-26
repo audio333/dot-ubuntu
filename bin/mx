@@ -6,9 +6,9 @@ switch_session() {
   if [ "$TERM_PROGRAM" = "tmux" ]; then
     tmux list-sessions -F '#{session_name}' | \
       sed '/^$/d' | \
-      fzf --prompt "Switch Session: " --bind 'enter:execute(tmux switch-client -t {})+accept' >/dev/null 2>&1
+      fzf --prompt "Switch Session: " --bind 'enter:execute(tmux switch-client -t {})+accept,tab:down,shift-tab:up' >/dev/null 2>&1
   else
-    session="$(tmux ls -F '#{session_name}' | fzf --prompt "Attach Session: " | sed 's/:.*//')"
+    session="$(tmux ls -F '#{session_name}' | fzf --prompt "Attach Session: " --bind 'tab:down,shift-tab:up' | sed 's/:.*//')"
     [ -z "$session" ] && exit || tmux attach -t $session >/dev/null 2>&1
   fi
 }
