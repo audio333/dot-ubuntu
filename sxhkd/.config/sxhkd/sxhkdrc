@@ -1,10 +1,8 @@
-super + shift + Escape
-    pkill -USR1 -x sxhkd    # Reload sxhkd
+# Reload sxhkdrc
+super + shift + r
+    pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 ### Scripts
-
-super + shift + c
-    ~/.local/bin/qa -d
 
 super + o
     ~/.local/bin/dm-search
@@ -54,13 +52,31 @@ hyper + v
 hyper + x
     cmus-remote -c -q && pkill -RTMIN+11 dwmblocks   # clear queue
 
+super + shift + c  
+    ~/.local/bin/qa -s   # dmenu
+
+super + hyper + c 
+    ~/.local/bin/qa -p && playerctl --player=mpv pause && pkill -RTMIN+12 dwmblocks  # random song
+
 ### MPV Radio
 
 hyper + comma
-    ~/.local/bin/qa -p # prev station
+    ~/.local/bin/qv -p && cmus-remote -s && pkill -RTMIN+11 dwmblocks  # prev station
 
 hyper + period 
-    ~/.local/bin/qa -n # next station
+    ~/.local/bin/qv -n && cmus-remote -s && pkill -RTMIN+11 dwmblocks  # next station
+
+### MPV Scripts
+
+hyper + m
+    ~/.local/bin/qv -s    # dmenu
+
+hyper + slash 
+    ~/.local/bin/qv -a && cmus-remote -s && pkill -RTMIN+11 dwmblocks   # random audio 
+
+hyper + alt + slash 
+    ~/.local/bin/qv -v && cmus-remote -s && pkill -RTMIN+11 dwmblocks   # random video 
+
 
 ### MPV player controls
 
