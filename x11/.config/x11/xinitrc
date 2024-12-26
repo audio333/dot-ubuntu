@@ -1,3 +1,4 @@
+#!/bin/sh
 xrdb -load ~/.config/x11/.Xresources &
 
 # Set Hotkeys
@@ -26,8 +27,11 @@ xwallpaper --zoom $(find ~/picture/Wallpapers -iregex '.*.\(jpg\|jpeg\|png\|gif\
 #compton &
 picom &
 
+# Music server & client
+#mpd &
+#mpDris2 &
+
 # Start Window Manager
 #dwmblocks &
 exec dwm
 #exec awesome
-
