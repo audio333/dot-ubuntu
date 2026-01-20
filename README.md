@@ -72,8 +72,8 @@
     sudo apt install git stow
 
     # clone dotfiles
-    mkdir -p ~/source-code
-    cd ~/source-code
+    mkdir -p ~/.local/src
+    cd ~/.local/src
     git clone https://github.com/audio333/dot-ubuntu.git
 
     #backup current dotfiles
@@ -81,10 +81,10 @@
     mv ~/.bashrc ~/download/stowbackup
     
     # symlink all files in dotfiles dir to home dir
-    cd ~/source-code/dot-ubuntu
+    cd ~/.local/src/dot-ubuntu
      
     # manually symlink bin (scripts) dir to .local dir
-    ln -s ~/source-code/dot-ubuntu/bin ~/.local/
+    ln -s ~/.local/src/dot-ubuntu/bin ~/.local/
 
     # link only folders (trailing slash)
     stow -v -t ~ */
